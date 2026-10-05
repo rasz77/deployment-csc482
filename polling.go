@@ -107,7 +107,7 @@ func pollWeather(url string) {
 	fmt.Println("Number of alerts:", len(alertResponse.Features))
 	// Display the first few alerts
 	for i, alert := range alertResponse.Features{
-		// Don't print hundreds of alerts
+		// Printing two alerts every 10 sec
 		if i >= 2 { break }
 		fmt.Println("Alert", i+1)
 		fmt.Println("Event:", alert.Properties.Event)
