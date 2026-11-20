@@ -2,12 +2,15 @@ FROM golang:1.27.1-alpine AS builder
 
 WORKDIR /app
 
-COPY ../go.mod ./
+COPY go.mod go.sum ./
+RUN go mod download
+
 COPY main.go ./
 
-RUN go build -o weather-agent main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+    go build -ldflags="-s -w" -o weather-agent main.go
 
-FROM alpine:latest
+FROM alpine:3.22
 
 RUN apk add --no-cache ca-certificates
 
